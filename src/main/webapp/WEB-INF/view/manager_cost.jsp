@@ -13,9 +13,9 @@ $(function(){
 	$('#search').on("click", function(e){
 		e.preventDefault();
 		var data = {
-				registrationDate : $('#registrationDate').val(),
-				name : $('#name').val(),
-				processStatus : $('#processStatus').val()
+				"date" : $('#registrationDate').val(),
+				"name" : $('#name').val(),
+				"processStatus" : $('#processStatus').val()
 		};
 		if(document.getElementById("registrationDate").value == 0) {
 			alert("등록년월을 선택해주세요");
@@ -32,17 +32,16 @@ $(function(){
 			document.getElementById("processStatus").focus();
 			return false;
 		}
-	alert("data > " + data.registrationDate + " " + data.name + " " + data.processStatus)
+	alert("data > " + data.date + " " + data.name + " " + data.processStatus)
 
-	
 	$.ajax({
 		/* url : contextPath + "/api/getList/{use_date, name, process_status}", */
-		url : "/api/getList?date=data.registrationDate&name=data.name&process_status=data.processStatus}",
+		url : "/api/getList",
 		type : 'GET',
 		contentType : "application/json; charset=utf-8",
 		dataType : 'JSON',
 		cache : false,
-		data : JSON.stringify(data),
+		data : data,//JSON.stringify(data),
 		success : function(res){
 			alert(res);
 			window.location.href=contextPath + "/index";
