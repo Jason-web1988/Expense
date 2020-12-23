@@ -10,6 +10,14 @@ public interface ExpenseService {
 	
 	List<Expense> getProcessList(HashMap<String, Object> paramMap);
 	
+	Expense selectExpenseById(int id);
+	
+	int insertExpense(Expense expense);
+	
+	int updateExpense(Expense expense);
+	
+	int deleteExpense(int expense_no);
+	
 	int countList();
 
 }

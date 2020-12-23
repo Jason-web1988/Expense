@@ -22,11 +22,14 @@ create sequence expense_seq
 
 INSERT INTO expense values(expense_seq.nextval, '2019-12-24', '식대(야근)', '8000', '7000', '승인', '2019-12-26', '영수증1.jpg', '2019-12-31 14:00', '야근식대는 7천원까지 지원됩니다.');	
 INSERT INTO expense values(expense_seq.nextval, '2019-12-20', '택시비(야근)', '15000', null, '접수', '2019-12-21', '영수증2.jpg', '2019-12-31 15:00', '택시비 지원은 1만원까지 지원됩니다.');	
+INSERT INTO expense values(expense_seq.nextval, '2020-12-24', '교육비', '15000', null, '접수', SYSDATE, '영수증3.jpg', null, null);	
 	
 select expense_no, use_date, name, use_price, approve_price, process_status, registration_date, receipt, process_date, remark 
 from expense order by expense_no desc;
 
 select expense_no, use_date, name, use_price, approve_price, process_status, registration_date, receipt, process_date, remark 
 from expense where use_date='2019-12-24' and process_status='승인' and name='식대(야근)' order by expense_no desc;
+
+
 
 select count(expense_no) from EXPENSE;

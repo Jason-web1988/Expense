@@ -29,6 +29,9 @@
 	
 	<sql id="whereSQL">
 		<where>
+			<if test = "registration_date !=null">
+				registration_date = #{registration_date}
+			</if>
 			<if test = "process_status !=null">
 				AND process_status = #{process_status}
 			</if>
@@ -40,6 +43,38 @@
 			</if>
 			 order by expense_no desc
 		</where>
+	</sql>
+	
+	<sql id="setSQL">
+		<set>
+			<if test= "use_date !=null">
+				use_date = #{use_date},
+			</if>
+			<if test="name !=null">
+				name = #{name},
+			</if>
+			<if test="use_price != null">
+				use_price = #{use_price},
+			</if>
+			<if test="approve_price !=null ">
+				approve_price=#{approve_price},
+			</if>
+			<if test="process_status !=null">
+				process_status=#{process_status},
+			</if>
+			<if test="registration_date !=null">
+				registration_date=#{registration_date},
+			</if>
+			<if test="receipt !=null">
+				receipt = #{receipt},
+			</if>
+			<if test="process_date !=null">
+				process_date = #{process_date},
+			</if>
+			<if test="remark !=null">
+				remark = #{remark},
+			</if>
+		</set>
 	</sql>
 	
 	<select id="SelectExpenseByAll" resultMap="resExpense">
@@ -55,5 +90,25 @@
 		<include refid="selectSQL"/>
 		<include refid="whereSQL"/>
 	</select>
+	
+	<select id="selectExpenseById" resultMap="resExpense">
+		<include refid="selectSQL"/>
+		where expense_no = #{expense_no}
+	</select>
+	
+	<insert id="insertExpense" parameterType="Expense">
+		INSERT INTO expense
+		values(expense_seq.nextval, #{use_date}, #{name}, '#{use_price}, null, '접수', SYSDATE, #{receipt}, null, null);
+	</insert>
+	
+	<update id="updateExpense" parameterType="Expense">
+		UPDATE EXPENSE
+		<include refid="setSQL"/>
+		expense_no = #{expense_no}
+	</update>
+	
+	<delete id="deleteExpense">
+		DELETE FROM EXPENSE WHERE EXPENSE_NO = #{EXPENSE_NO}
+	</delete>
 	
 </mapper>

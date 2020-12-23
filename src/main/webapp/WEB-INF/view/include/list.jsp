@@ -25,7 +25,7 @@ $(function(){
 				sCont += "<tr>";
 				sCont += "<td>" + json[i].expense_no + "</td>";
 				sCont += "<td>" + json[i].use_date + "</td>";
-				sCont += "<td><a href='read?id" + json[i].expense_no + "'>" + json[i].name + "</a></td>";
+				sCont += "<td><a href='update?id=" + json[i].expense_no + "'>" + json[i].name + "</a></td>";
 				sCont += "<td>" + json[i].use_price + "</td>";
 				sCont += "<td>" + json[i].approve_price + "</td>";
 				sCont += "<td>" + json[i].process_status + "</td>";
@@ -35,15 +35,12 @@ $(function(){
 				sCont += "<td>" + json[i].remark + "</td>"; */
 				sCont += "</tr>"; 
 			}
-			/* sCont += "<tr>";
-			sCont += "<td></td>";
-			sCont += "<td></td>";
-			sCont += "<td></td>"; */
 			$("#load:last-child").append(sCont);
 		}
 	});
-
 });
+
+
 </script>
 </head>
 <body>
@@ -53,7 +50,7 @@ $(function(){
 
 <div class="add_button">
 			<button type="button" >엑셀다운로드</button>
-			<input type="button" value="등록" onclick="open()">
+			<input type="button" onclick="window.open('register')" value="등록">
 </div>
 
 <br>

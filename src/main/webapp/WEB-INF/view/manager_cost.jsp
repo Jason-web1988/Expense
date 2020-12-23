@@ -45,8 +45,29 @@ $(function(){
 			data : data, //JSON.stringify(data)
 			success : function(res){
 				alert("결과 값 >> " + res);
-				console.log(res);
-				window.location.href=contextPath + "/search";
+				console.log("결과값 >>>> " + res);
+			/* 	window.location.href=contextPath + "/search"; */
+				
+				var dataLength = res.length;
+				if(dataLength >= 1){
+					var sCont = "";
+					for(i=0; i<dataLength; i++){
+						sCont += "<tr>";
+						sCont += "<td>" + res[i].expense_no + "</td>";
+						sCont += "<td>" + res[i].use_date + "</td>";
+						sCont += "<td><a href='update?id" + res[i].expense_no + "'>" + res[i].name + "</a></td>";
+						sCont += "<td>" + res[i].use_price + "</td>";
+						sCont += "<td>" + res[i].approve_price + "</td>";
+						sCont += "<td>" + res[i].process_status + "</td>";
+						sCont += "<td>" + res[i].registration_date + "</td>";
+						/* sCont += "<td>" + json[i].receipt + "</td>";
+						sCont += "<td>" + json[i].process_date + "</td>";
+						sCont += "<td>" + json[i].remark + "</td>"; */
+						sCont += "</tr>"; 
+					}
+					console.log(sCont);
+					$("#load").html(sCont);
+				}
 			},
 			error : function(request, status, error){
 				alert("code : " + request.status + "\n"+"message : " + request.responseText + "\n"+"error : " + error);

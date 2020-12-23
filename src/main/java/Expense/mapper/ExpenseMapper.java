@@ -11,6 +11,13 @@ public interface ExpenseMapper {
 	 
 	 List<Expense> selectExpenseByProcess(HashMap<String, Object> paramMap);
 	
+	 Expense selectExpenseById(int id);
+	 
+	 int insertExpense(Expense expense);
+	 
+	 int updateExpense(Expense expense);
+	 
+	 int deleteExpense(int expense_no);
 	 
 	 int countTotal(); 
 }

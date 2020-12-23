@@ -39,4 +39,28 @@ public class ExpenseServiceImp implements ExpenseService {
 		return processList;
 	}
 
+	@Override
+	public Expense selectExpenseById(int id) {
+		log.debug("service - selectExpenseById() > " + id);
+		return mapper.selectExpenseById(id);
+	}
+
+	@Override
+	public int insertExpense(Expense expense) {
+		log.debug("service - insertExpense() > " + expense);
+		return mapper.insertExpense(expense);
+	}
+
+	@Override
+	public int updateExpense(Expense expense) {
+		log.debug("service - updateExpense() > " + expense);
+		return mapper.updateExpense(expense);
+	}
+
+	@Override
+	public int deleteExpense(int expense_no) {
+		log.debug("service - deleteExpense() > " + expense_no);
+		return mapper.deleteExpense(expense_no);
+	}
+
 }
