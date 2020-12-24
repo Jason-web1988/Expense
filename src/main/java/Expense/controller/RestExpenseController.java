@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.javassist.bytecode.DuplicateMemberException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import Expense.dto.Expense;
@@ -80,7 +82,8 @@ public class RestExpenseController {
 	}
 	
 	@PostMapping("/newExpense/")
-	public ResponseEntity<Object> newExpense(@RequestBody Expense expense){
+    public ResponseEntity<Object> newExpense(@RequestBody Expense expense){
+		System.out.println("test");
 		try {
 			service.insertExpense(expense);
 			URI uri = URI.create("/api/newExpense/" + expense.getExpense_no());
@@ -89,7 +92,19 @@ public class RestExpenseController {
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();
 		}
 	}
-	
+	/*
+	@RequestMapping(value="/newExpense", method = {RequestMethod.GET, RequestMethod.POST})
+	public ResponseEntity<Object> newExpense(@RequestBody Expense expense, HttpRequest request){
+		System.out.println("test");
+		try {
+			service.insertExpense(expense);
+			URI uri = URI.create("/api/newExpense/" + expense.getExpense_no());
+			return ResponseEntity.created(uri).body(expense.getExpense_no());
+		}catch (DuplicateExpenseException e) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).build();
+		}
+	}
+	*/
 	@PutMapping("/update/{id}")
 	public ResponseEntity<Object> updateExpense(@PathVariable int id, @RequestBody Expense expense){
 		System.out.println("updateExpense >> " + expense);

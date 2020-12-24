@@ -1,3 +1,4 @@
+<%@page import="java.text.SimpleDateFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -14,36 +15,50 @@ $(function(){
 	alert("id >> " + id);
 	
 	$.get(contextPath + "/api/getNo/" + id, function(json){
-		alert(json.name + ", " + json.date + ", " + json.use_price + ", "+ json.receipt + ", " + json.process_status + ", " + approve_price + ", " + remark)
+		alert(json.name + ", " + json.use_date+ ", "+ json.use_price + ", "+ json.receipt + ", " + json.process_status + ", " +json.process_date+", "+ json.approve_price + ", " + json.remark)
 		console.log(json)
 		
 		var name = "";
 			name = json.name
-			$('#name').append(name);
+			$('#name').val(name);
 			
-		var	date = "";
-			date = json.use_date;
-			$('#use_date').append(date);
+		var	use_date = "";
+			use_date = json.use_date;
+			$('#use_date').val(use_date);
 			
+ 		var	process_date = "";
+			process_date = json.process_date;
+			$('#process_date').val(process_date);
+		
+			console.log("process_date >>"+ process_date);
+
 		var	use_price = "";
 			use_price = json.use_price;
-			$('#use_price').append(use_price);
+			$('#use_price').val(use_price);
 			
-		var	receipt = "";
+			console.log("use_price >>"+ use_price);
+			
+		/* var	receipt = "";
 			receipt = json.receipt;
-			$('#receipt').append(receipt);
+			$('#receipt').val(receipt);
+			
+			console.log("receipt >>"+ receipt); */
 		
 		var	process_status = "";
 			process_status = json.process_status;
-			$('#process_status').append(process_status);
+			$('#process_status').val(process_status);
+			
+			console.log("process_status >>"+ process_status);
 		
 		var	approve_price = "";
 			approve_price = json.approve_price;
-			$('#approve_price').append(approve_price);
+			$('#approve_price').val(approve_price);
+			
+			console.log("approve_price >>"+ approve_price);
 		
 		var	remark = "";
 			remark = json.remark;
-			$('#remark').append(remark);
+			$('#remark').val(remark);
 			
 		document.getElementById("process_date").value = new Date().toISOString().substring(0,10);	//현재 날짜를 기본값으로	
 	});
@@ -92,7 +107,7 @@ $(function(){
 				remark : $('#remark').val()
 		}
 		
-		alert("data >> " + ", " + json.date + ", " + json.use_price + ", "+ json.receipt + ", " + json.process_status + ", " + approve_price + ", " + remark)
+		alert("data >> " + ", " + data.date + ", " + data.use_price + ", "+ data.receipt + ", " + data.process_status + ", " + data.approve_price + ", " + data.remark)
 		
 		$.ajax({
 			url : contextPath + "/api/update/" + id,
@@ -133,7 +148,7 @@ $(function(){
 <body>
 
 <!-- 업데이트 -->
-<form action='../expense/update.do' method='post' enctype='multipart/form-data'  target="list.do">
+<form action='' method='post'>
 <input name="expenseNo" type="hidden">
 <h3>사용내역</h3>
 <table class="update" style="float: left;">
@@ -175,29 +190,28 @@ $(function(){
 <table class="update">
     <tr>
        <th>처리상태</th>
-       <td><select id="process_status">
+       <td>
+       		<select id="process_status" name="process_status">
 		  		<option value=""></option>
 			    <option value="접수">접수</option>
 			    <option value="승인">승인</option>
 			    <option value="지급완료">지급완료</option>
     			<option value="반려">반려</option>
-			</select> </td> 
+			</select> 
+		</td> 
    </tr>
     <tr>
        <th>처리일시</th>
-       <td><input name="process_date" type="date" id="process_date">
-       <script>
-</script> 
-       </td>
+       <td><input name="process_date" type="date" id="process_date"></td>
    </tr>
     <tr>
        <th>금액</th>
-       <td><input name="approve_price" type="text" id="approve_price" ></td>
+       <td><input name="approve_price" type="text" id="approve_price"></td>
    </tr>
     <tr>
        	<th>영수증</th>
-    	<td><input name="remark" type="text" id="remark"></td>
-  </tr>
+    	<td><input name="receipt" type="text" id="receipt"></td>
+ 	</tr>
 </table>
 
 </form>

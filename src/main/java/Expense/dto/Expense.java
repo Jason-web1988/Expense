@@ -6,8 +6,8 @@ public class Expense {
 	private int expense_no;					//순번
 	private Timestamp use_date;				//사용일
 	private String name;					//사용내역
-	private String use_price;				//사용금액
-	private String approve_price;			//승인금액		
+	private int use_price;				//사용금액
+	private int approve_price;			//승인금액		
 	private String process_status;			//처리상태			
 	private Timestamp registration_date;	//등록일
 	private String receipt;					//영수증			
@@ -16,7 +16,7 @@ public class Expense {
 	
 	public Expense() {}
 
-	public Expense(int expense_no, Timestamp use_date, String name, String use_price, String approve_price,
+	public Expense(int expense_no, Timestamp use_date, String name, int use_price, int approve_price,
 			String process_status, Timestamp registration_date, String receipt, Timestamp process_date, String remark) {
 		super();
 		this.expense_no = expense_no;
@@ -29,6 +29,15 @@ public class Expense {
 		this.receipt = receipt;
 		this.process_date = process_date;
 		this.remark = remark;
+	}
+	
+
+	public Expense(Timestamp use_date, String name, int use_price, String receipt) {
+		super();
+		this.use_date = use_date;
+		this.name = name;
+		this.use_price = use_price;
+		this.receipt = receipt;
 	}
 
 	public int getExpense_no() {
@@ -55,19 +64,19 @@ public class Expense {
 		this.name = name;
 	}
 
-	public String getUse_price() {
+	public int getUse_price() {
 		return use_price;
 	}
 
-	public void setUse_price(String use_price) {
+	public void setUse_price(int use_price) {
 		this.use_price = use_price;
 	}
 
-	public String getApprove_price() {
+	public int getApprove_price() {
 		return approve_price;
 	}
 
-	public void setApprove_price(String approve_price) {
+	public void setApprove_price(int approve_price) {
 		this.approve_price = approve_price;
 	}
 
@@ -119,7 +128,7 @@ public class Expense {
 				process_date, remark);
 	}
 
-	
+
 
 
 

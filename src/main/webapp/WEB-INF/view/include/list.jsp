@@ -15,6 +15,7 @@ $(function(){
 	document.getElementById("registrationDate").value = new Date().toISOString().substring(0,10);	//현재 날짜를 기본값으로
 	
 	var contextPath = "<%=request.getContextPath()%>";
+	console.log(contextPath)
 	
 	$.get(contextPath+"/api/list", function(json){
 		var dataLength = json.length;
@@ -22,10 +23,13 @@ $(function(){
 		if(dataLength >= 1){
 			var sCont = "";
 			for(i=0; i<dataLength; i++){
+				var popUp = "window.open(\'/update?id=" + json[i].expense_no + "\',\'_blank\',\'width=630\height=430\')";
+				
 				sCont += "<tr>";
 				sCont += "<td>" + json[i].expense_no + "</td>";
 				sCont += "<td>" + json[i].use_date + "</td>";
-				sCont += "<td><a href='update?id=" + json[i].expense_no + "'>" + json[i].name + "</a></td>";
+				/* sCont += "<td><a href='/update?id=" + json[i].expense_no + "'>" + json[i].name + "</a></td>"; */
+				sCont += "<td><a href='javascript:void(0);' onclick=" + popUp + ">" + json[i].name + "</a></td>";
 				sCont += "<td>" + json[i].use_price + "</td>";
 				sCont += "<td>" + json[i].approve_price + "</td>";
 				sCont += "<td>" + json[i].process_status + "</td>";
@@ -50,7 +54,7 @@ $(function(){
 
 <div class="add_button">
 			<button type="button" >엑셀다운로드</button>
-			<input type="button" onclick="window.open('register')" value="등록">
+			<input type="button" onclick="window.open('register', 'registerExpense', 'width = 430 height = 430')" value="등록">
 </div>
 
 <br>
