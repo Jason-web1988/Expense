@@ -26,6 +26,9 @@ $(function(){
 			use_date = json.use_date;
 			$('#use_date').val(use_date);
 			
+			console.log("use_date >>"+ use_date);
+			console.log($(#use_date).val());
+			
  		var	process_date = "";
 			process_date = json.process_date;
 			$('#process_date').val(process_date);
