@@ -11,11 +11,13 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script type="text/javascript">
 $(function(){
+	  
+	
 	<%-- <%SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");%> --%>
-	document.getElementById("registrationDate").value = new Date().toISOString().substring(0,10);	//현재 날짜를 기본값으로
+	document.getElementById("registration_date").value = new Date().toISOString().substring(0,10);	//현재 날짜를 기본값으로
 	
 	var contextPath = "<%=request.getContextPath()%>";
-	console.log(contextPath)
+	/* console.log(contextPath); */
 	
 	$.get(contextPath+"/api/list", function(json){
 		var dataLength = json.length;
@@ -33,7 +35,7 @@ $(function(){
 				sCont += "<td>" + json[i].use_price + "</td>";
 				sCont += "<td>" + json[i].approve_price + "</td>";
 				sCont += "<td>" + json[i].process_status + "</td>";
-				sCont += "<td>" + json[i].registration_date + "</td>";
+				sCont += "<td>" + json[i].registration_date + "</td>"
 				/* sCont += "<td>" + json[i].receipt + "</td>";
 				sCont += "<td>" + json[i].process_date + "</td>";
 				sCont += "<td>" + json[i].remark + "</td>"; */

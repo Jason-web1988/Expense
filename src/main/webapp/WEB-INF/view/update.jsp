@@ -21,50 +21,44 @@ $(function(){
 		var name = "";
 			name = json.name
 			$('#name').val(name);
+			console.log("name >>"+ name);
 			
 		var	use_date = "";
 			use_date = json.use_date;
 			$('#use_date').val(use_date);
-			
 			console.log("use_date >>"+ use_date);
-			console.log($(#use_date).val());
 			
  		var	process_date = "";
 			process_date = json.process_date;
 			$('#process_date').val(process_date);
-		
 			console.log("process_date >>"+ process_date);
 
 		var	use_price = "";
 			use_price = json.use_price;
 			$('#use_price').val(use_price);
-			
 			console.log("use_price >>"+ use_price);
-			
-		/* var	receipt = "";
-			receipt = json.receipt;
-			$('#receipt').val(receipt);
-			
-			console.log("receipt >>"+ receipt); */
+		
+		var	receipText = "";
+			receipText = json.receipt;
+			$('#receipText').val(receipText);
+			console.log("receipText >>"+ receipText); 
 		
 		var	process_status = "";
 			process_status = json.process_status;
 			$('#process_status').val(process_status);
-			
 			console.log("process_status >>"+ process_status);
 		
 		var	approve_price = "";
 			approve_price = json.approve_price;
 			$('#approve_price').val(approve_price);
-			
 			console.log("approve_price >>"+ approve_price);
 		
 		var	remark = "";
 			remark = json.remark;
 			$('#remark').val(remark);
 			
-		document.getElementById("process_date").value = new Date().toISOString().substring(0,10);	//현재 날짜를 기본값으로	
-	});
+ 		/* document.getElementById("process_date").value = new Date().toISOString().substring(0,10);	//현재 날짜를 기본값으로 */	
+ 	});
 	
 	$('#update').on("click", function(e){
 		e.preventDefault();
@@ -205,7 +199,7 @@ $(function(){
    </tr>
     <tr>
        <th>처리일시</th>
-       <td><input name="process_date" type="date" id="process_date"></td>
+       <td><input name="process_date" type="text" id="process_date"></td>
    </tr>
     <tr>
        <th>금액</th>
@@ -213,7 +207,7 @@ $(function(){
    </tr>
     <tr>
        	<th>영수증</th>
-    	<td><input name="receipt" type="text" id="receipt"></td>
+    	<td><input name="receipText" type="text" id="receipText"></td>
  	</tr>
 </table>
 

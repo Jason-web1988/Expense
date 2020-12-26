@@ -24,12 +24,13 @@ INSERT INTO expense values(expense_seq.nextval, '2019-12-24', '식대(야근)', 
 INSERT INTO expense values(expense_seq.nextval, '2019-12-20', '택시비(야근)', 15000, 0, '접수', '2019-12-21', '영수증2.jpg', '2019-12-31 15:00', '택시비 지원은 1만원까지 지원됩니다.');	
 INSERT INTO expense values(expense_seq.nextval, '2020-12-24', '교육비', 15000, 0, '접수', SYSDATE, '영수증3.jpg', null, null);	
 	
-select expense_no, use_date, name, use_price, approve_price, process_status, registration_date, receipt, process_date, remark 
-from expense order by expense_no desc;
+select expense_no, TO_CHAR(use_date, 'yyyy-MM-dd') as use_date, name, use_price, approve_price, process_status, TO_CHAR(registration_date, 'yyyy-MM-dd') as registration_date, 
+		receipt, TO_CHAR(process_date, 'yyyy-MM-dd') as process_date, remark 
+		from expense order by expense_no desc;
 
 select expense_no, use_date, name, use_price, approve_price, process_status, registration_date, receipt, process_date, remark 
-from expense where use_date='2019-12-24' and process_status='승인' and name='식대(야근)' order by expense_no desc;
+from expense where registration_date between to_date('2020-12-24', 'YYYY-MM-DD') and to_date('2020-12-24', 'YYYY-MM-DD')+0.99999  and process_status='접수' and name='교육비' order by expense_no desc;
 
-
+ p_name LIKE '%프린터%
 
 select count(expense_no) from EXPENSE;

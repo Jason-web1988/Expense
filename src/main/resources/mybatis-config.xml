@@ -5,7 +5,10 @@
 <configuration>
 	<settings>
 		<setting name="mapUnderscoreToCamelCase" value="true"/>
+		<!-- <setting name="jdbcTypeForNull" value="null"/> -->
 	</settings>
+	
+	
 	<typeAliases>
 		<package name="Expense.dto"/>
 	</typeAliases>

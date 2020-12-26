@@ -16,11 +16,12 @@
 	
 	<sql id="selectSQL">
 		select expense_no
-			, use_date, name
+			, TO_CHAR(use_date, 'YYYY-MM-DD') as use_date
+			, name
 			, use_price
 			, approve_price
 			, process_status
-			, registration_date
+			, TO_CHAR(registration_date, 'YYYY-MM-DD') as registration_date
 			, receipt
 			, process_date
 			, remark 
@@ -87,8 +88,9 @@
 	</select>
 	
 	<select id="selectExpenseByProcess" resultMap="resExpense" parameterType="hashmap" >
-		<include refid="selectSQL"/>
-		<include refid="whereSQL"/>
+		 <include refid="selectSQL"/>
+		where registration_date='#{registration_date, jdbcType=TIMESTAMP}' between to_date('#{registration_date, jdbcType=TIMESTAMP}', 'YYYY-MM-DD') and to_date('#{registration_date, jdbcType=TIMESTAMP}', 'YYYY-MM-DD')+0.99999 
+		and process_status='#{process_status}' and name='#{name}' order by expense_no desc
 	</select>
 	
 	<select id="selectExpenseById" resultMap="resExpense">

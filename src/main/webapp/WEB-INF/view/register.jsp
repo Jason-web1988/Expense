@@ -33,13 +33,14 @@ $(function(){
 			document.getElementById("use_price").focus();
 			return false;
 		}
-		/* if(document.getElementById("receipt").value == 0) {
+		 if(document.getElementById("receipt").value == 0) {
 			alert("영수증을 첨부해주세요");
 			document.getElementById("receipt").focus();
 			return false;
-		} */
+		} 
+		 
 		$.ajax({
-			url :  index + "/api/newExpense",
+			url : "/api/newExpense/",
 			type : "POST",
 			contenType : "application/json; charset=utf-8",
 			dataType : 'JSON',
@@ -51,7 +52,7 @@ $(function(){
 			},
 			error : function(request, status, error){
 				alert("code : " + request.status + "\n"+"message : " + request.responseText + "\n"+"error : " + error);
-				console.dir(request.responseText);
+				/* console.dir(request.responseText); */
 				/*  window.location.href=contextPath + "/index"; */
 			}
 		});
@@ -60,8 +61,6 @@ $(function(){
 </script>
 </head>
 <body>
-<form action='index' method='post'>
-
 <h2 class='add'>경비 등록  / 수정</h2>
 <table class="add">
     <tr>
@@ -90,10 +89,11 @@ $(function(){
   	</tr>
 </table>
   <!-- <input name="registrationDate" type="date" style="display: none" id="currentDate"> -->
+
 <div class='button'>
 <input type="button" onclick="window.close()" value="닫기"/>
 <input type="button" value="저장" onclick="return false" id="add"/>
 </div>
-</form>
+
 </body>
 </html>

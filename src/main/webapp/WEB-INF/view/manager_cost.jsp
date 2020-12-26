@@ -8,18 +8,21 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script type="text/javascript">
 $(function(){
+	document.getElementById("registration_date").value = new Date().toISOString().substring(0,10);
+	
 	var contextPath = "<%=request.getContextPath()%>";
 	
 	$('#search').on("click", function(e){
 		e.preventDefault();
+		
 		var data = {
-				date : $('#registrationDate').val(),
+				registration_date : $('#registration_date').val(),
 				name : $('#name').val(),
 				process_status : $('#process_status').val()
 		};
-		if(document.getElementById("registrationDate").value == 0) {
+		if(document.getElementById("registration_date").value == 0) {
 			alert("등록년월을 선택해주세요");
-			document.getElementById("registrationDate").focus();
+			document.getElementById("registration_date").focus();
 			return false;
 		}
 		if(document.getElementById("name").value == 0) {
@@ -32,8 +35,8 @@ $(function(){
 			document.getElementById("process_status").focus();
 			return false;
 		}
-		 alert("data > " + data.date + ", " + data.name + ", " + data.process_status)
-		console.log("data > " + data.date + " " + data.name + " " + data.process_status)
+		 alert("data > " + data.registration_date + ", " + data.name + ", " + data.process_status)
+		//console.log("data > " + data.registration_date + " " + data.name + " " + data.process_status)
 		
 		$.ajax({
 			url : "/api/getList", 
@@ -45,9 +48,10 @@ $(function(){
 			data : data, //JSON.stringify(data)
 			success : function(res){
 				alert("결과 값 >> " + res);
-				console.log("결과값 >>>> " + res);
-			/* 	window.location.href=contextPath + "/search"; */
+				/* console.log("결과값 >>>> " + res); */
 				
+			/* 	window.location.href=contextPath + "/search"; */
+							
 				var dataLength = res.length;
 				if(dataLength >= 1){
 					var sCont = "";
@@ -65,9 +69,24 @@ $(function(){
 						sCont += "<td>" + json[i].remark + "</td>"; */
 						sCont += "</tr>"; 
 					}
+					if(dataLength == 0){
+						var sCont = "";
+						sCont += "<tr>";
+						sCont += "<td></td>";
+						sCont += "<td></td>";
+						sCont += "<td></td>";
+						sCont += "<td></td>";
+						sCont += "<td></td>";
+						sCont += "<td></td>";
+						sCont += "<td></td>";
+						/* sCont += "<td>" + json[i].receipt + "</td>";
+						sCont += "<td>" + json[i].process_date + "</td>";
+						sCont += "<td>" + json[i].remark + "</td>"; */
+						sCont += "</tr>"; 
+					}
 					
 						
-					console.log(sCont);
+					/* console.log(sCont); */
 					$("#load").html(sCont);
 				}
 			},
@@ -85,7 +104,7 @@ $(function(){
 <div class="1">
 <form action='search' method='get' id='index'>
 	<a class="class1">등록년월:</a>
-		<input name='registrationDate' type='date' id="registrationDate">
+		<input name='registration_date' type='date' id="registration_date">
 			
 	<a class="class2">사용내역:</a>
 			<select name="name" id="name">

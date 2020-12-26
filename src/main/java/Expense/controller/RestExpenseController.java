@@ -52,15 +52,18 @@ public class RestExpenseController {
 	
 	@GetMapping("/getList")
 	public ResponseEntity<Object> getExpense(@RequestParam Map<String, Object> params) {
-		System.out.println("getExpense() : " + params.toString() + ", " + params.get("date"));
+		System.out.println("getExpense() : " + params.toString() + ", " + params.get("registration_date"));
 		
-		Timestamp dateToTimestamp = Timestamp.valueOf((String)params.get("date") + " 00:00:00");
+		//Timestamp dateToTimestamp = Timestamp.valueOf((String)params.get("date") + " 00:00:00");
 		
 		HashMap<String, Object> paramMap = new HashMap<>();
-		paramMap.put("date", dateToTimestamp);
+		//paramMap.put("date", dateToTimestamp);
+		paramMap.put("registration_date", params.get("registration_date"));
 		paramMap.put("name", params.get("name"));
-		paramMap.put("processStatus", params.get("process_status"));
+		paramMap.put("process_status", params.get("process_status"));
 		
+		System.out.println("paramMap >> " + paramMap.toString());
+
 		List<Expense> expense = service.getProcessList(paramMap);
 		
 		if(expense == null) {
@@ -83,7 +86,7 @@ public class RestExpenseController {
 	
 	@PostMapping("/newExpense/")
     public ResponseEntity<Object> newExpense(@RequestBody Expense expense){
-		System.out.println("test");
+		System.out.println("newExpense >>" + expense);
 		try {
 			service.insertExpense(expense);
 			URI uri = URI.create("/api/newExpense/" + expense.getExpense_no());

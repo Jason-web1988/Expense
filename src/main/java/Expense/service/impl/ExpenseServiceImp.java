@@ -23,6 +23,8 @@ public class ExpenseServiceImp implements ExpenseService {
 	public List<Expense> getList() {
 		List<Expense> list = mapper.SelectExpenseByAll();
 		log.debug("service - getList() > " + list.size());
+//		System.out.println("list >> " + list);
+		list.stream().forEach(System.out::println);
 		return list;
 	}
 
@@ -35,7 +37,13 @@ public class ExpenseServiceImp implements ExpenseService {
 
 	@Override
 	public List<Expense> getProcessList(HashMap<String, Object> paramMap) {
+		System.out.println("paramMap getProcessList >> " + paramMap.toString());
+		
 		List<Expense> processList = mapper.selectExpenseByProcess(paramMap);
+		
+		System.out.println("processList >> " + processList);
+		processList.stream().forEach(System.out::println);
+		
 		return processList;
 	}
 
