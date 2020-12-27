@@ -3,6 +3,8 @@ package Expense.mapper;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import Expense.dto.Expense;
 
 
@@ -20,4 +22,6 @@ public interface ExpenseMapper {
 	 int deleteExpense(int expense_no);
 	 
 	 int countTotal(); 
+	 
+	 public void getExcelDown(HttpServletResponse response);
 }

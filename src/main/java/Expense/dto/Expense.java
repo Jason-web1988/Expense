@@ -11,7 +11,7 @@ public class Expense {
 	private String process_status;			//처리상태			
 	private String registration_date;	//등록일
 	private String receipt;					//영수증			
-	private Timestamp process_date; 		//처리일시				
+	private String process_date; 		//처리일시				
 	private String remark;					//비고
 	
 	
@@ -25,7 +25,7 @@ public class Expense {
 
 
 	public Expense(int expense_no, String use_date, String name, int use_price, int approve_price,
-			String process_status, String registration_date, String receipt, Timestamp process_date, String remark) {
+			String process_status, String registration_date, String receipt, String process_date, String remark) {
 		super();
 		this.expense_no = expense_no;
 		this.use_date = use_date;
@@ -120,12 +120,12 @@ public class Expense {
 	}
 
 
-	public Timestamp getProcess_date() {
+	public String getProcess_date() {
 		return process_date;
 	}
 
 
-	public void setProcess_date(Timestamp process_date) {
+	public void setProcess_date(String process_date) {
 		this.process_date = process_date;
 	}
 
@@ -147,6 +147,8 @@ public class Expense {
 				expense_no, use_date, name, use_price, approve_price, process_status, registration_date, receipt,
 				process_date, remark);
 	}
+
+
 
 
 

@@ -33,22 +33,26 @@ $(function(){
 			document.getElementById("use_price").focus();
 			return false;
 		}
-		 if(document.getElementById("receipt").value == 0) {
+	 	 if(document.getElementById("receipt").value == 0) {
 			alert("영수증을 첨부해주세요");
 			document.getElementById("receipt").focus();
 			return false;
-		} 
+		}  
 		 
 		$.ajax({
 			url : "/api/newExpense/",
+ 			headers: { 
+		        'Accept': 'application/json',
+		        'Content-Type': 'application/json' 
+		    }, 
 			type : "POST",
 			contenType : "application/json; charset=utf-8",
 			dataType : 'JSON',
 			cache : false,
 			data : JSON.stringify(data), 
 			success : function(res){
-				alert(res);
-				//window.location.href="index";
+				alert("추가 완료되었습니다." + res);
+				window.location.href="index";
 			},
 			error : function(request, status, error){
 				alert("code : " + request.status + "\n"+"message : " + request.responseText + "\n"+"error : " + error);
@@ -86,7 +90,7 @@ $(function(){
     <tr>
        	<th>영수증*</th>
     	<td><input name="receipt" type="file" id="receipt"></td>
-  	</tr>
+  	</tr> 
 </table>
   <!-- <input name="registrationDate" type="date" style="display: none" id="currentDate"> -->
 

@@ -8,15 +8,37 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script type="text/javascript">
-$(function(){
-	var contextPath = "<%=request.getContextPath()%>";
-	
+$(function(){ var dt = new Date();
+
+/* 	var Year = dt.getFullYear();
+		var Month = "" + (dt.getMonth() + 1);
+		var Day = "" + dt.getDate();
+
+		if (Month.length < 2)
+			Month = "0" + Month;
+		if (Day.length < 2)
+			Day = "0" + Day;
+
+		var Today = Year.toString() + Month + Day; 
+		document.getElementById("process_date").value = Today;	
+		*/
+
+		
+
+		var contextPath = "<%=request.getContextPath()%>";
+		
 	var id=${param.id}
 	alert("id >> " + id);
 	
 	$.get(contextPath + "/api/getNo/" + id, function(json){
 		alert(json.name + ", " + json.use_date+ ", "+ json.use_price + ", "+ json.receipt + ", " + json.process_status + ", " +json.process_date+", "+ json.approve_price + ", " + json.remark)
 		console.log(json)
+		
+		//처리상태 = '승인'일 때, 버튼숨김기능
+		if(json.process_status == "승인"){
+			$('#update').hide();
+			$('#delete').hide();
+		} 
 		
 		var name = "";
 			name = json.name
@@ -30,14 +52,19 @@ $(function(){
 			
  		var	process_date = "";
 			process_date = json.process_date;
+			if(process_date == null){
+				document.getElementById("process_date").value = new Date().toISOString().substring(0,10);
+			}else{
 			$('#process_date').val(process_date);
+			}
 			console.log("process_date >>"+ process_date);
 
 		var	use_price = "";
 			use_price = json.use_price;
 			$('#use_price').val(use_price);
 			console.log("use_price >>"+ use_price);
-		
+			
+			
 		var	receipText = "";
 			receipText = json.receipt;
 			$('#receipText').val(receipText);
@@ -94,6 +121,7 @@ $(function(){
 		}
 		
 		var data = {
+				expense_no : id,
 				name : $('#name').val(),
 				use_date : $('#use_date').val(),
 				use_price : $('#use_price').val(),
@@ -101,19 +129,25 @@ $(function(){
 				process_status : $('#process_status').val(),
 				approve_price : $('#approve_price').val(),
 				process_date : $('#process_date').val(),
-				remark : $('#remark').val()
+				remark : $('#remark').val(),
+				/* registration_date :  */
+				
 		}
 		
-		alert("data >> " + ", " + data.date + ", " + data.use_price + ", "+ data.receipt + ", " + data.process_status + ", " + data.approve_price + ", " + data.remark)
-		
+		alert("data >> " + ", " + data.name + ", " + data.use_date + ", " + data.use_price + ", "+ data.receipt + ", " + data.process_status + ", " + data.approve_price + ", " + data.process_date + ", " + data.remark)
+		console.log(data);
 		$.ajax({
 			url : contextPath + "/api/update/" + id,
+			headers: { 
+		        'Accept': 'application/json',
+		        'Content-Type': 'application/json' 
+		    },
 			type : "PUT",
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
-			data : data, //JSON.stringify(daya),
+			data : JSON.stringify(data),
 			success : function(data){
-				alert(data);
+				alert("수정이 완료되었습니다." + data);
 				window.location.href="index";
 			},
 			error : function(request, status, error){
@@ -139,6 +173,10 @@ $(function(){
 			}
 		});
 	});
+	
+	
+		
+	
 });
 </script>
 </head>
@@ -178,11 +216,14 @@ $(function(){
 <div class="update_image">
 <h3>영수증</h3>
 <img id="img" style="height: 150px;"/>
+</div>
 <br>
+<div id = "show_button()">
 <input type="button" value="저장" onclick="return false" id="update"/>
 <input type="button" value="삭제" id ="delete">
 <input type="button" onclick="window.close()"value="닫기">
 </div>
+
 <h3>청구내역</h3>
 <table class="update">
     <tr>
@@ -199,7 +240,7 @@ $(function(){
    </tr>
     <tr>
        <th>처리일시</th>
-       <td><input name="process_date" type="text" id="process_date"></td>
+       <td><input name="process_date" type="date" id="process_date"></td>
    </tr>
     <tr>
        <th>금액</th>

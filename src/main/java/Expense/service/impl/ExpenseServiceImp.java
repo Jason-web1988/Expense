@@ -40,8 +40,11 @@ public class ExpenseServiceImp implements ExpenseService {
 		System.out.println("paramMap getProcessList >> " + paramMap.toString());
 		
 		List<Expense> processList = mapper.selectExpenseByProcess(paramMap);
+		System.out.println("paramMap getProcessList2 >> ");
+		processList.stream().forEach(System.out::println);
+
 		
-		System.out.println("processList >> " + processList);
+		System.out.println("processList3 >> " + processList);
 		processList.stream().forEach(System.out::println);
 		
 		return processList;
@@ -70,5 +73,7 @@ public class ExpenseServiceImp implements ExpenseService {
 		log.debug("service - deleteExpense() > " + expense_no);
 		return mapper.deleteExpense(expense_no);
 	}
+
+
 
 }

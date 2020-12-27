@@ -10,6 +10,10 @@
 $(function(){
 	document.getElementById("registration_date").value = new Date().toISOString().substring(0,10);
 	
+	function numberFormat(inputNumber){		//천단위 ","해주기
+        return inputNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+	
 	var contextPath = "<%=request.getContextPath()%>";
 	
 	$('#search').on("click", function(e){
@@ -54,41 +58,55 @@ $(function(){
 							
 				var dataLength = res.length;
 				if(dataLength >= 1){
+					console.log('dataLength >= 1');
+					var totalUsePrice = 0;
+					var totalApprovePrice = 0;	
 					var sCont = "";
 					for(i=0; i<dataLength; i++){
 						sCont += "<tr>";
 						sCont += "<td>" + res[i].expense_no + "</td>";
 						sCont += "<td>" + res[i].use_date + "</td>";
 						sCont += "<td><a href='update?id" + res[i].expense_no + "'>" + res[i].name + "</a></td>";
-						sCont += "<td>" + res[i].use_price + "</td>";
-						sCont += "<td>" + res[i].approve_price + "</td>";
+						sCont += "<td>" + numberFormat(res[i].use_price) + "</td>";
+						sCont += "<td>" + numberFormat(res[i].approve_price) + "</td>";
 						sCont += "<td>" + res[i].process_status + "</td>";
 						sCont += "<td>" + res[i].registration_date + "</td>";
 						/* sCont += "<td>" + json[i].receipt + "</td>";
 						sCont += "<td>" + json[i].process_date + "</td>";
 						sCont += "<td>" + json[i].remark + "</td>"; */
 						sCont += "</tr>"; 
-					}
-					if(dataLength == 0){
-						var sCont = "";
-						sCont += "<tr>";
-						sCont += "<td></td>";
-						sCont += "<td></td>";
-						sCont += "<td></td>";
-						sCont += "<td></td>";
-						sCont += "<td></td>";
-						sCont += "<td></td>";
-						sCont += "<td></td>";
-						/* sCont += "<td>" + json[i].receipt + "</td>";
-						sCont += "<td>" + json[i].process_date + "</td>";
-						sCont += "<td>" + json[i].remark + "</td>"; */
-						sCont += "</tr>"; 
-					}
-					
 						
-					/* console.log(sCont); */
-					$("#load").html(sCont);
-				}
+						totalUsePrice +=  res[i].use_price;
+						totalApprovePrice += res[i].approve_price;
+					}
+					sCont += "<tr>";
+					sCont += "<td><b>합계</b></td>";
+					sCont += "<td></td>";
+					sCont += "<td></td>";
+					sCont += "<td>" + numberFormat(totalUsePrice) + "</td>";
+					sCont += "<td>" + numberFormat(totalApprovePrice) + "</td>";
+					sCont += "<td></td>";
+					sCont += "<td></td>";
+					sCont += "</tr>";
+					
+				} 
+			 	else {
+					console.log('dataLength == 0');
+					var sCont = "";
+					sCont += "<tr>";
+					sCont += "<td></td>";
+					sCont += "<td></td>";
+					sCont += "<td></td>";
+					sCont += "<td></td>";
+					sCont += "<td></td>";
+					sCont += "<td></td>";
+					sCont += "<td></td>";
+					/* sCont += "<td>" + json[i].receipt + "</td>";
+					sCont += "<td>" + json[i].process_date + "</td>";
+					sCont += "<td>" + json[i].remark + "</td>"; */
+					sCont += "</tr>"; 
+				} 
+				$("#load").html(sCont);
 			},
 			error : function(request, status, error){
 				alert("code : " + request.status + "\n"+"message : " + request.responseText + "\n"+"error : " + error);

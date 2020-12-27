@@ -23,7 +23,7 @@
 			, process_status
 			, TO_CHAR(registration_date, 'YYYY-MM-DD') as registration_date
 			, receipt
-			, process_date
+			, TO_CHAR(process_date, 'YYYY-MM-DD') as process_date
 			, remark 
 		from expense
 	</sql>
@@ -63,9 +63,9 @@
 			<if test="process_status !=null">
 				process_status=#{process_status},
 			</if>
-			<if test="registration_date !=null">
+			<!-- <if test="registration_date !=null">
 				registration_date=#{registration_date},
-			</if>
+			</if>  -->
 			<if test="receipt !=null">
 				receipt = #{receipt},
 			</if>
@@ -73,7 +73,7 @@
 				process_date = #{process_date},
 			</if>
 			<if test="remark !=null">
-				remark = #{remark},
+				remark = #{remark}
 			</if>
 		</set>
 	</sql>
@@ -89,8 +89,11 @@
 	
 	<select id="selectExpenseByProcess" resultMap="resExpense" parameterType="hashmap" >
 		 <include refid="selectSQL"/>
-		where registration_date='#{registration_date, jdbcType=TIMESTAMP}' between to_date('#{registration_date, jdbcType=TIMESTAMP}', 'YYYY-MM-DD') and to_date('#{registration_date, jdbcType=TIMESTAMP}', 'YYYY-MM-DD')+0.99999 
-		and process_status='#{process_status}' and name='#{name}' order by expense_no desc
+		where process_status = #{process_status} 
+			and name = #{name}
+			and registration_date between to_date(#{registration_date, jdbcType=TIMESTAMP}, 'YYYY-MM-DD') 
+				and to_date(#{registration_date, jdbcType=TIMESTAMP}, 'YYYY-MM-DD')+0.99999 
+			order by expense_no desc
 	</select>
 	
 	<select id="selectExpenseById" resultMap="resExpense">
@@ -100,13 +103,13 @@
 	
 	<insert id="insertExpense" parameterType="Expense">
 		INSERT INTO expense
-		values(expense_seq.nextval, #{use_date}, #{name}, '#{use_price}, null, '접수', SYSDATE, #{receipt}, null, null);
+		values(expense_seq.nextval, #{use_date}, #{name}, #{use_price}, null, '접수', SYSDATE, #{receipt}, null, null)
 	</insert>
 	
 	<update id="updateExpense" parameterType="Expense">
 		UPDATE EXPENSE
 		<include refid="setSQL"/>
-		expense_no = #{expense_no}
+		WHERE expense_no = #{expense_no}
 	</update>
 	
 	<delete id="deleteExpense">
