@@ -1,7 +1,8 @@
 <%@page import="Expense.service.ExpenseService"%>
-<%@page import="java.text.SimpleDateFormat"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -58,27 +59,7 @@ $(function(){
 			$("#load:last-child").append(sCont);
 		}
 	});
-	
-	$('#excelDown').on('click',function(e){
-		alert("엑셀다운로드");
-		$.ajax({
-			url : "/api/excelDown", 
-			type : 'GET',
-			contentType : "application/json; charset=utf-8",
-			dataType : 'JSON',
-			// processDate : false,
-			//cache : false,
-			//data : data, //JSON.stringify(data)
-			success : function(res){
-				alert("결과 값 >> " + res);
-			},
-			error : function(request, status, error){
-				alert("code : " + request.status + "\n"+"message : " + request.responseText + "\n"+"error : " + error);
-				 //window.location.href=contextPath + "/index";
-			}
-		});
-	});
-			
+				
 });
 
 
@@ -90,8 +71,10 @@ $(function(){
 <br>
 
 <div class="add_button">
-			<button type="button" id="excelDown">엑셀다운로드</button>
+<form action="/api/excelDown" method="get">
+			<input type="submit" id="excelDown" value="엑셀다운로드">
 			<input type="button" onclick="window.open('register', 'registerExpense', 'width = 430 height = 430')" value="등록">
+</form>
 </div>
 
 

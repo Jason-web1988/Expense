@@ -10,6 +10,6 @@
 	
 	
 	<typeAliases>
-		<package name="Expense.dto"/>
+		<package name="Expense.dto.ExpenseDto"/>
 	</typeAliases>
 </configuration> 

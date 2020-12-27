@@ -3,25 +3,22 @@ package Expense.mapper;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
-
-import Expense.dto.Expense;
+import Expense.dto.ExpenseDto;
 
 
 public interface ExpenseMapper {
-	 List<Expense> SelectExpenseByAll();
+	 List<ExpenseDto> SelectExpenseByAll();
 	 
-	 List<Expense> selectExpenseByProcess(HashMap<String, Object> paramMap);
+	 List<ExpenseDto> selectExpenseByProcess(HashMap<String, Object> paramMap);
 	
-	 Expense selectExpenseById(int id);
+	 ExpenseDto selectExpenseById(int id);
 	 
-	 int insertExpense(Expense expense);
+	 int insertExpense(ExpenseDto expense);
 	 
-	 int updateExpense(Expense expense);
+	 int updateExpense(ExpenseDto expense);
 	 
 	 int deleteExpense(int expense_no);
 	 
 	 int countTotal(); 
 	 
-	 public void getExcelDown(HttpServletResponse response);
 }

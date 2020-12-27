@@ -13,7 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import Expense.config.ControllerConfig;
-import Expense.dto.Expense;
+import Expense.dto.ExpenseDto;
 import Expense.service.ExpenseService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -33,7 +33,7 @@ public class ExpenseServiceTest {
 	public void testGetList() {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName()+"()");
 		
-		List<Expense> list = service.getList();
+		List<ExpenseDto> list = service.getList();
 		Assert.assertNotNull(list);
 		list.forEach(Expense -> log.debug(Expense.toString()));
 	}

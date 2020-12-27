@@ -1,6 +1,10 @@
 package Expense.controller;
 
-import java.net.URI;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +23,6 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,16 +33,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
-import Expense.dto.Expense;
-import Expense.exception.DuplicateExpenseException;
+import Expense.dto.ExpenseDto;
 import Expense.service.ExpenseService;
 
 @RestController					//Spring MVC Controller에 @ResponseBody가 추가된것, 주용도로 JSON형태로 객체 데이터를 반환
 @RequestMapping("/api")			//api만들기
 public class RestExpenseController {
+	
+	final static String UPLOADED_FOLDER="C:\\workspace\\test\\";
 	
 	@Autowired
 	private ExpenseService service;
@@ -73,9 +77,9 @@ public class RestExpenseController {
 		paramMap.put("name", params.get("name"));
 		paramMap.put("process_status", params.get("process_status"));
 		
-		System.out.println("paramMap >> " + paramMap.toString());
+		//System.out.println("paramMap >> " + paramMap.toString());
 
-		List<Expense> expense = service.getProcessList(paramMap);
+		List<ExpenseDto> expense = service.getProcessList(paramMap);
 		
 		if(expense == null) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -87,7 +91,7 @@ public class RestExpenseController {
 	@GetMapping("/getNo/{id}")
 	public ResponseEntity<Object> getExpenseNo(@PathVariable int id) {
 		System.out.println("getExpenseNo");
-		Expense expense = service.selectExpenseById(id);
+		ExpenseDto expense = service.selectExpenseById(id);
 
 		if (expense == null) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -96,20 +100,59 @@ public class RestExpenseController {
 	}
 	
 	//@PostMapping("/newExpense/")
-	@PostMapping(value ="/newExpense/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> newExpense(@RequestBody Expense expense){
-		System.out.println("newExpense >>" + expense);
-		try {
-			service.insertExpense(expense);
-			URI uri = URI.create("/api/newExpense/" + expense.getExpense_no());
-			return ResponseEntity.created(uri).body(expense.getExpense_no());
-		}catch (DuplicateExpenseException e) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).build();
-		}
-	}
+	//@PostMapping(value ="/newExpense/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    //public ResponseEntity<Object> newExpense(@RequestBody Expense expense){
+	//	System.out.println("newExpense >>" + expense);
+	//	try {
+	//		service.insertExpense(expense);
+	/*
+	 * URI uri = URI.create("/api/newExpense/" + expense.getExpense_no()); return
+	 * ResponseEntity.created(uri).body(expense.getExpense_no()); }catch
+	 * (DuplicateExpenseException e) { return
+	 * ResponseEntity.status(HttpStatus.CONFLICT).build(); } }
+	 */
+	
+    @PostMapping("/newExpense")
+    public ResponseEntity<?> uploadFileMulti(
+    		//@RequestParam Map<String, Object> params,
+            //@RequestParam("extraField") String extraField,
+    		@RequestParam("use_history") String useHistory,
+    		@RequestParam("use_date") String useDate,
+    		@RequestParam("use_price") int usePrice,
+            @RequestParam("receipt") MultipartFile[] uploadfiles
+            //@ModelAttribute ExpenseModel model
+            ) throws IOException {
+
+        System.out.println("Multiple file upload!  " + useDate + ", " + usePrice);
+        
+        //System.out.println(model.getUsePrice() + ", " + model.getUseDate());
+
+        try {
+            saveUploadedFiles(Arrays.asList(uploadfiles));
+        } catch (IOException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        
+        // TODO 여기서 이제 로직을 짜야되는데 
+        
+        // 1. DB에 데이터를 insert 한다.
+        ExpenseDto expense = new ExpenseDto();
+        
+        expense.setName(useHistory);
+        expense.setUse_date(useDate);
+        expense.setUse_price(usePrice);
+        System.out.println("hs : " + uploadfiles[0].getBytes().length);
+        expense.setReceipt(uploadfiles[0].getBytes());
+        
+       int res =  service.insertExpense(expense);
+        return ResponseEntity.ok(res);
+
+    }
+    
+    
 
 	@PutMapping("/update/{id}")
-	public ResponseEntity<Object> updateExpense(@PathVariable int id, @RequestBody Expense expense){
+	public ResponseEntity<Object> updateExpense(@PathVariable int id, @RequestBody ExpenseDto expense){
 		System.out.println("updateExpense >> " + expense);
 		return ResponseEntity.ok(service.updateExpense(expense));
 	}
@@ -119,12 +162,7 @@ public class RestExpenseController {
 		System.out.println("deleteExpense >> " + id);
 		return ResponseEntity.ok(service.deleteExpense(id));
 	}
-	
-	
-	
-	
-	
-	
+
 	/*
 	 * @RequestMapping(value="/excelDown", produces =
 	 * "application/text; charset = utf8") public void excelDownload(
@@ -134,15 +172,13 @@ public class RestExpenseController {
 	 * }
 	 */
 	
-	
-	/*
 //	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	@RequestMapping(value = "/excelDown",  produces = "application/text; charset = utf8")
 	public void excelDown(HttpServletResponse response) throws Exception {
 		System.out.println("excelDown");
 	    // 게시판 목록조회
-	    List<Expense> list = service.getList();
+	    List<ExpenseDto> list = service.getList();
 
 
 	    // 워크북 생성
@@ -199,20 +235,24 @@ public class RestExpenseController {
 
 	    cell = row.createCell(4);
 	    cell.setCellStyle(headStyle);
-	    cell.setCellValue("승인금액");
+	    cell.setCellValue("처리상태");
 	    
 	    cell = row.createCell(5);
 	    cell.setCellStyle(headStyle);
-	    cell.setCellValue("처리상태");
+	    cell.setCellValue("등록일");
 
 	    cell = row.createCell(6);
 	    cell.setCellStyle(headStyle);
-	    cell.setCellValue("등록일");
+	    cell.setCellValue("처리일시");
+	    
+	    cell = row.createCell(7);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("비고");
 
 
 	    // 데이터 부분 생성
 
-	    for(Expense expense : list) {
+	    for(ExpenseDto expense : list) {
 
 	        row = sheet.createRow(rowNo++);
 
@@ -242,16 +282,13 @@ public class RestExpenseController {
 	        
 	        cell = row.createCell(6);
 	        cell.setCellStyle(bodyStyle);
-	        cell.setCellValue(expense.getReceipt());
+	        cell.setCellValue(expense.getProcess_date());
 	        
 	        cell = row.createCell(7);
 	        cell.setCellStyle(bodyStyle);
-	        cell.setCellValue(expense.getProcess_date());
-	        
-	        cell = row.createCell(8);
-	        cell.setCellStyle(bodyStyle);
 	        cell.setCellValue(expense.getRemark());
-	    }
+	        
+	 }
 
 	    // 컨텐츠 타입과 파일명 지정
 	    response.setContentType("ms-vnd/excel");
@@ -261,5 +298,21 @@ public class RestExpenseController {
 	    wb.write(response.getOutputStream());
 	    wb.close();
 	}
- 	*/
+	
+	private void saveUploadedFiles(List<MultipartFile> files) throws IOException {
+		System.out.println("files length : " + files.size());
+        for (MultipartFile file : files) {
+
+            if (file.isEmpty()) {
+                continue; //next pls
+            }
+
+            byte[] bytes = file.getBytes();
+            Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
+            System.out.println(path.toString());
+            Files.write(path, bytes);
+
+        }
+
+    }
 }

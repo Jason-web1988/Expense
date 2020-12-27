@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Expense.mapper.ExpenseMapper">
-	<resultMap type="Expense.dto.Expense" id="resExpense">
+	<resultMap type="Expense.dto.ExpenseDto" id="resExpense">
 		<id column="expense_no" property="expense_no"/>
 		<result column="use_date" property="use_date"/>
 		<result column="name" property="name"/>
@@ -101,12 +101,12 @@
 		where expense_no = #{expense_no}
 	</select>
 	
-	<insert id="insertExpense" parameterType="Expense">
+	<insert id="insertExpense" parameterType="Expense.dto.ExpenseDto">
 		INSERT INTO expense
 		values(expense_seq.nextval, #{use_date}, #{name}, #{use_price}, null, '접수', SYSDATE, #{receipt}, null, null)
 	</insert>
 	
-	<update id="updateExpense" parameterType="Expense">
+	<update id="updateExpense" parameterType="Expense.dto.ExpenseDto">
 		UPDATE EXPENSE
 		<include refid="setSQL"/>
 		WHERE expense_no = #{expense_no}

@@ -8,7 +8,7 @@ import org.apache.ibatis.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import Expense.dto.Expense;
+import Expense.dto.ExpenseDto;
 import Expense.mapper.ExpenseMapper;
 import Expense.service.ExpenseService;
 
@@ -20,11 +20,12 @@ public class ExpenseServiceImp implements ExpenseService {
 	private ExpenseMapper mapper;
 	
 	@Override
-	public List<Expense> getList() {
-		List<Expense> list = mapper.SelectExpenseByAll();
+	public List<ExpenseDto> getList() {
+		List<ExpenseDto> list = mapper.SelectExpenseByAll();
 		log.debug("service - getList() > " + list.size());
-//		System.out.println("list >> " + list);
-		list.stream().forEach(System.out::println);
+		System.out.println("list >> " + list);
+		
+		//list.stream().forEach(System.out::println);
 		return list;
 	}
 
@@ -36,10 +37,10 @@ public class ExpenseServiceImp implements ExpenseService {
 	}
 
 	@Override
-	public List<Expense> getProcessList(HashMap<String, Object> paramMap) {
+	public List<ExpenseDto> getProcessList(HashMap<String, Object> paramMap) {
 		System.out.println("paramMap getProcessList >> " + paramMap.toString());
 		
-		List<Expense> processList = mapper.selectExpenseByProcess(paramMap);
+		List<ExpenseDto> processList = mapper.selectExpenseByProcess(paramMap);
 		System.out.println("paramMap getProcessList2 >> ");
 		processList.stream().forEach(System.out::println);
 
@@ -51,19 +52,19 @@ public class ExpenseServiceImp implements ExpenseService {
 	}
 
 	@Override
-	public Expense selectExpenseById(int id) {
+	public ExpenseDto selectExpenseById(int id) {
 		log.debug("service - selectExpenseById() > " + id);
 		return mapper.selectExpenseById(id);
 	}
 
 	@Override
-	public int insertExpense(Expense expense) {
+	public int insertExpense(ExpenseDto expense) {
 		log.debug("service - insertExpense() > " + expense);
 		return mapper.insertExpense(expense);
 	}
 
 	@Override
-	public int updateExpense(Expense expense) {
+	public int updateExpense(ExpenseDto expense) {
 		log.debug("service - updateExpense() > " + expense);
 		return mapper.updateExpense(expense);
 	}
@@ -74,6 +75,5 @@ public class ExpenseServiceImp implements ExpenseService {
 		return mapper.deleteExpense(expense_no);
 	}
 
-
-
+	
 }

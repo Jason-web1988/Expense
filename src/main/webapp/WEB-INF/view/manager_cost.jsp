@@ -63,10 +63,13 @@ $(function(){
 					var totalApprovePrice = 0;	
 					var sCont = "";
 					for(i=0; i<dataLength; i++){
+						var popUp = "window.open(\'/update?id=" + res[i].expense_no + "\',\'_blank\',\'width=630\height=430\')";
+						
 						sCont += "<tr>";
 						sCont += "<td>" + res[i].expense_no + "</td>";
 						sCont += "<td>" + res[i].use_date + "</td>";
-						sCont += "<td><a href='update?id" + res[i].expense_no + "'>" + res[i].name + "</a></td>";
+						//sCont += "<td><a href='update?id" + res[i].expense_no + "'>" + res[i].name + "</a></td>";
+						sCont += "<td><a href='javascript:void(0);' onclick=" + popUp + ">" + res[i].name + "</a></td>";
 						sCont += "<td>" + numberFormat(res[i].use_price) + "</td>";
 						sCont += "<td>" + numberFormat(res[i].approve_price) + "</td>";
 						sCont += "<td>" + res[i].process_status + "</td>";

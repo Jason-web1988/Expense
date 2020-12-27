@@ -1,8 +1,11 @@
 package Expense.dto;
 
 import java.sql.Timestamp;
+import java.util.Arrays;
 
-public class Expense {
+import org.springframework.web.multipart.MultipartFile;
+
+public class ExpenseDto {
 	private int expense_no;					//순번
 	private String use_date;				//사용일
 	private String name;					//사용내역
@@ -10,22 +13,22 @@ public class Expense {
 	private int approve_price;			//승인금액		
 	private String process_status;			//처리상태			
 	private String registration_date;	//등록일
-	private String receipt;					//영수증			
+	private byte[] receipt;					//영수증			
 	private String process_date; 		//처리일시				
 	private String remark;					//비고
 	
 	
-	public Expense() {}
+	public ExpenseDto() {}
 
 	
-	public Expense(int expense_no) {
+	public ExpenseDto(int expense_no) {
 		super();
 		this.expense_no = expense_no;
 	}
 
 
-	public Expense(int expense_no, String use_date, String name, int use_price, int approve_price,
-			String process_status, String registration_date, String receipt, String process_date, String remark) {
+	public ExpenseDto(int expense_no, String use_date, String name, int use_price, int approve_price,
+			String process_status, String registration_date, byte[] receipt, String process_date, String remark) {
 		super();
 		this.expense_no = expense_no;
 		this.use_date = use_date;
@@ -110,12 +113,12 @@ public class Expense {
 	}
 
 
-	public String getReceipt() {
+	public byte[] getReceipt() {
 		return receipt;
 	}
 
 
-	public void setReceipt(String receipt) {
+	public void setReceipt(byte[] receipt) {
 		this.receipt = receipt;
 	}
 
@@ -143,23 +146,13 @@ public class Expense {
 	@Override
 	public String toString() {
 		return String.format(
-				"Expense [expense_no=%s, use_date=%s, name=%s, use_price=%s, approve_price=%s, process_status=%s, registration_date=%s, receipt=%s, process_date=%s, remark=%s]",
-				expense_no, use_date, name, use_price, approve_price, process_status, registration_date, receipt,
-				process_date, remark);
+				"ExpenseDto [expense_no=%s, use_date=%s, name=%s, use_price=%s, approve_price=%s, process_status=%s, registration_date=%s, receipt=%s, process_date=%s, remark=%s]",
+				expense_no, use_date, name, use_price, approve_price, process_status, registration_date,
+				Arrays.toString(receipt), process_date, remark);
 	}
 
 
-
-
-
 	
-
-
-
-
-
-	
-
 	
 	
 }

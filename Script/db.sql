@@ -10,7 +10,7 @@ create table expense(
 	approve_price number(30),					-- 승인금액
 	process_status varchar(30),					-- 처리상태
 	registration_date timestamp default current_date,-- 등록일
-	receipt varchar(255),						-- 영수증
+	receipt blob,						-- 영수증
 	process_date timestamp,						-- 처리일시
 	remark varchar(100)							-- 비고
 );
@@ -20,6 +20,9 @@ create sequence expense_seq
 	increment by 01
 	minvalue 01;
 	
+DBMS_LOB.GETLENGTH(receipt);	
+SELECT * FROM user_receipt;
+
 INSERT INTO expense values(expense_seq.nextval, '2019-12-24', '식대(야근)', 8000, 7000, '승인', '2019-12-26', '영수증1.jpg', '2019-12-31 14:00', '야근식대는 7천원까지 지원됩니다.');	
 INSERT INTO expense values(expense_seq.nextval, '2019-12-20', '택시비(야근)', 15000, 0, '접수', '2019-12-21', '영수증2.jpg', '2019-12-31 15:00', '택시비 지원은 1만원까지 지원됩니다.');	
 INSERT INTO expense values(expense_seq.nextval, '2020-12-24', '교육비', 15000, 0, '접수', SYSDATE, '영수증3.jpg', null, null);	
@@ -38,6 +41,10 @@ select expense_no, use_date, name, use_price, approve_price, process_status, reg
 -- p_name LIKE '%프린터%;
 
 select count(expense_no) from EXPENSE;
+select * from EXPENSE;
+SELECT COLUMN_NAME, DATA_TYPE FROM all_tab_columns where table_name='EXPENSE'; 
+
+commit;
 
 UPDATE EXPENSE SET USE_DATE='2019-12-12', NAME='교육비', USE_PRICE='10000', APPROVE_PRICE= '5000', PROCESS_STATUS='승인', RECEIPT='영수증.jpg', PROCESS_DATE='2020-12-27', REMARK='테스트입니다.' WHERE EXPENSE_NO=7;
 

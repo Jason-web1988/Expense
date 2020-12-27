@@ -13,7 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import Expense.config.ControllerConfig;
-import Expense.dto.Expense;
+import Expense.dto.ExpenseDto;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {ControllerConfig.class})
@@ -32,7 +32,7 @@ public class ExpenseMapperTest {
 	public void testSelectExpenseByAll() {
 		log.debug(Thread.currentThread().getStackTrace()[1].getMethodName()+"()");
 		
-		List<Expense> list = mapper.SelectExpenseByAll();
+		List<ExpenseDto> list = mapper.SelectExpenseByAll();
 		Assert.assertNotNull(list);
 		list.forEach(Expense -> log.debug(Expense.toString()));
 	}

@@ -5,21 +5,22 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
-import Expense.dto.Expense;
+import Expense.dto.ExpenseDto;
 
 public interface ExpenseService {
-	List<Expense> getList();
+	List<ExpenseDto> getList();
 	
-	List<Expense> getProcessList(HashMap<String, Object> paramMap);
+	List<ExpenseDto> getProcessList(HashMap<String, Object> paramMap);
 	
-	Expense selectExpenseById(int id);
+	ExpenseDto selectExpenseById(int id);
 	
-	int insertExpense(Expense expense);
+	int insertExpense(ExpenseDto expense);
 	
-	int updateExpense(Expense expense);
+	int updateExpense(ExpenseDto expense);
 	
 	int deleteExpense(int expense_no);
 	
 	int countList();
+	
 	
 }
