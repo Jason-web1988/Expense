@@ -7,8 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript"
-	src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="../../resources/javascript/jquery-3.5.1.min.js"></script>
 <script type="text/javascript">
 $(function(){ var dt = new Date();
 
@@ -141,12 +140,12 @@ $(function(){ var dt = new Date();
 				expense_no : id,
 				name : $('#name').val(),
 				use_date : $('#use_date').val(),
-				use_price : $('#use_price').val(),
-				//receipt : $('#receipt').val(),
+				use_price : $('#use_price').val(),				
 				process_status : $('#process_status').val(),
 				approve_price : $('#approve_price').val(),
 				process_date : $('#process_date').val(),
-				remark : $('#remark').val(),
+				remark : $('#remark').val()
+				//receipt : $('#use_price').val(),
 				/* registration_date :  */
 				
 		}
@@ -164,6 +163,7 @@ $(function(){ var dt = new Date();
 			dataType : "json",
 			data : JSON.stringify(data),
 			success : function(data){
+				window.close();
 				alert("수정이 완료되었습니다." + data);
 				window.location.href="index";
 			},
@@ -232,12 +232,6 @@ $(function(){ var dt = new Date();
 			<img id='receiptImg' style="height: 300px;" />
 		</div>
 		<br>
-		<div id="show_button()">
-			<input type="button" value="저장" onclick="return false" id="update" />
-			<input type="button" value="삭제" id="delete"> 
-			<input
-				type="button" onclick="window.close()" value="닫기">
-		</div>
 
 		<h3>청구내역</h3>
 		<table class="update">
@@ -264,7 +258,12 @@ $(function(){ var dt = new Date();
 				<td><input name="receipText" type="text" id="receipText"></td>
 			</tr>
 		</table>
-
+		<br><br>
+		<div id="show_button()">
+			<input type="button" value="저장" onclick="return false" id="update" />
+			<input type="button" value="삭제" id="delete"> 
+			<input type="button" onclick="window.close()" value="닫기">
+		</div>
 	</form>
 
 

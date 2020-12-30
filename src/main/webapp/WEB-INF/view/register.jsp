@@ -5,8 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript"
-	src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="../../resources/javascript/jquery-3.5.1.min.js"></script>
 <script type="text/javascript">
 <%-- $(function(){
 	var contextPath = "<%=request.getContextPath()%>
@@ -158,8 +157,10 @@ $(function () {
 	            $("#result").text(data);
 	            console.log("SUCCESS : ", data);
 	            $("#btnSubmit").prop("disabled", false);
+	            window.close();
 				alert("성공하였습니다."+data);
 				window.location.href = "index";
+				//window.location.reload(true);
 	        },
 	        error: function (e) {
 	            $("#result").text(e.responseText);

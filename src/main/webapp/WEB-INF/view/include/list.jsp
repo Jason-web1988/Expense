@@ -9,7 +9,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link href="/resources/css/css.css" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="/resources/javascript/jquery-3.5.1.min.js"></script>
 <script type="text/javascript">
 $(function(){
 	document.getElementById("registration_date").value = new Date().toISOString().substring(0,10);	//현재 날짜를 기본값으로

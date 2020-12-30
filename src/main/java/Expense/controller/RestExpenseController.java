@@ -1,10 +1,6 @@
 package Expense.controller;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -127,15 +123,11 @@ public class RestExpenseController {
         
         //System.out.println(model.getUsePrice() + ", " + model.getUseDate());
 
-        try {
-            saveUploadedFiles(Arrays.asList(uploadfiles));
-        } catch (IOException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+		/*
+		 * try { saveUploadedFiles(Arrays.asList(uploadfiles)); } catch (IOException e)
+		 * { return new ResponseEntity<>(HttpStatus.BAD_REQUEST); }
+		 */
         
-        // TODO 여기서 이제 로직을 짜야되는데 
-        
-        // 1. DB에 데이터를 insert 한다.
         ExpenseDto expense = new ExpenseDto();
         
         expense.setName(useHistory);
@@ -156,6 +148,32 @@ public class RestExpenseController {
 		System.out.println("updateExpense >> " + expense);
 		return ResponseEntity.ok(service.updateExpense(expense));
 	}
+	
+	/*
+	@PutMapping("/update/{id}")
+	public ResponseEntity<Object> updateExpense(@PathVariable int id, 
+								@RequestParam("name") String name,
+								@RequestParam("use_date") String use_date,
+								@RequestParam("use_price") int use_price,
+								@RequestParam("receipt") MultipartFile[] receipt,
+								@RequestParam("process_status") String process_status,
+								@RequestParam("approve_price") int approve_price,
+								@RequestParam("process_date") String process_date,
+								@RequestParam("remark") String remark
+								) throws IOException{
+		System.out.println("updateExpense >> ");
+		ExpenseDto expenseDto = new ExpenseDto();
+		
+		expenseDto.setName(name);
+		expenseDto.setUse_date(use_date);
+		expenseDto.setUse_price(use_price);
+		expenseDto.setReceipt(receipt[0].getBytes());
+		expenseDto.setProcess_date(process_date);
+		expenseDto.setApprove_price(approve_price);
+		expenseDto.setProcess_date(process_date);
+		
+		return ResponseEntity.ok(service.updateExpense(expenseDto));
+	}*/
 	
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<Object> deleteExpense(@PathVariable int id){
@@ -299,20 +317,19 @@ public class RestExpenseController {
 	    wb.close();
 	}
 	
-	private void saveUploadedFiles(List<MultipartFile> files) throws IOException {
-		System.out.println("files length : " + files.size());
-        for (MultipartFile file : files) {
-
-            if (file.isEmpty()) {
-                continue; //next pls
-            }
-
-            byte[] bytes = file.getBytes();
-            Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
-            System.out.println(path.toString());
-            Files.write(path, bytes);
-
-        }
-
-    }
+	/*
+	 * private void saveUploadedFiles(List<MultipartFile> files) throws IOException
+	 * { System.out.println("files length : " + files.size()); for (MultipartFile
+	 * file : files) {
+	 * 
+	 * if (file.isEmpty()) { continue; }
+	 * 
+	 * byte[] bytes = file.getBytes(); Path path = Paths.get(UPLOADED_FOLDER +
+	 * file.getOriginalFilename()); System.out.println(path.toString());
+	 * Files.write(path, bytes);
+	 * 
+	 * }
+	 * 
+	 * }
+	 */
 }

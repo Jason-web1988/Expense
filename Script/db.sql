@@ -20,13 +20,17 @@ create sequence expense_seq
 	increment by 01
 	minvalue 01;
 	
-DBMS_LOB.GETLENGTH(receipt);	
-SELECT * FROM user_receipt;
+select dbms_LOB.SUBSTR(receipt, 3000)
+from expense;
 
 INSERT INTO expense values(expense_seq.nextval, '2019-12-24', '식대(야근)', 8000, 7000, '승인', '2019-12-26', '영수증1.jpg', '2019-12-31 14:00', '야근식대는 7천원까지 지원됩니다.');	
 INSERT INTO expense values(expense_seq.nextval, '2019-12-20', '택시비(야근)', 15000, 0, '접수', '2019-12-21', '영수증2.jpg', '2019-12-31 15:00', '택시비 지원은 1만원까지 지원됩니다.');	
 INSERT INTO expense values(expense_seq.nextval, '2020-12-24', '교육비', 15000, 0, '접수', SYSDATE, '영수증3.jpg', null, null);	
 	
+select expense_no, TO_CHAR(use_date, 'yyyy-MM-dd') as use_date, name, use_price, approve_price, process_status, TO_CHAR(registration_date, 'yyyy-MM-dd') as registration_date, 
+		TO_CHAR(process_date, 'yyyy-MM-dd') as process_date, remark 
+		from expense order by expense_no desc;
+
 select expense_no, TO_CHAR(use_date, 'yyyy-MM-dd') as use_date, name, use_price, approve_price, process_status, TO_CHAR(registration_date, 'yyyy-MM-dd') as registration_date, 
 		receipt, TO_CHAR(process_date, 'yyyy-MM-dd') as process_date, remark 
 		from expense order by expense_no desc;
